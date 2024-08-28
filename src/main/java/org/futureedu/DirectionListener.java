@@ -20,8 +20,12 @@ public class DirectionListener {
     }
 
     public static Direction directionByString(String direction) {
-        if (direction.matches("^(-1|[0-8])$")) return Direction.valueOf(Integer.parseInt(direction));
-        return Direction.valueOf(direction);
+        try {
+            if (direction.matches("^(-1|[0-8])$")) return Direction.valueOf(Integer.parseInt(direction));
+            return Direction.valueOf(direction);
+        } catch (Throwable t) {
+            return Direction.none;
+        }
     }
 
     public enum Direction {
