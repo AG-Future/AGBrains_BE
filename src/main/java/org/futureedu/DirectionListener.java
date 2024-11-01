@@ -8,15 +8,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DirectionListener {
     private Direction direction = Direction.stay;
+    private long idlingTimeout = 0;
 
     @PostMapping("/set-direction")
     public void setDirection(@RequestParam String direction) {
-        this.direction = directionByString(direction);
+        Direction modifier = directionByString(direction);
+        if (this.direction != modifier) idlingTimeout = System.currentTimeMillis();
+        this.direction = modifier;
     }
 
     @GetMapping("/get-direction")
-    public String getDirection() {
-        return "{\"direction\":" + direction.direction + "}";
+    public String getDirection(@RequestParam(required = false) String idlingTime) {
+        return "{\"direction\":" + direction.direction + ",\"isIdling\":" + (System.currentTimeMillis() - idlingTimeout >= Long.parseLong(idlingTime != null ? idlingTime : "15") * 1000) + "}";
     }
 
     public static Direction directionByString(String direction) {
