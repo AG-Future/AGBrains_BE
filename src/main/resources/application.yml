@@ -2,4 +2,4 @@ spring:
   application.name: AGBrains_BE
 
 server:
-  port: 80
+  port: 8080
