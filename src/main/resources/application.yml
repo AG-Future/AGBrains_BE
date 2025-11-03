@@ -1,0 +1,5 @@
+spring:
+  application.name: AGBrains_BE
+
+server:
+  port: 80
